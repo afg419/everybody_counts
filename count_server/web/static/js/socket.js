@@ -54,9 +54,26 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-let channel = socket.channel("topic:subtopic", {})
+let channel = socket.channel("the_counter", {})
+let counterOutput    = $("#dom-counter")
+let counterIncrement = $("#increment-counter")
+
+//
+counterIncrement.on("click", event => {
+  // counterOutput.html("")
+  channel.push("count_up", {body: "plus_one"})
+})
+
+channel.on("count_up", payload => {
+  if(payload.body === "EVERYTHING HAS FAILED"){
+    counterOutput.append(`<br/>[SHITTT] ${payload.body}`)
+  }else{
+    counterOutput.html(payload.body)
+  }
+})
+
 channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
+  .receive("ok", resp => { console.log("Joined successfully get ready to push buttons", resp) })
+  .receive("error", resp => { console.log("Unable to join you are missing out on a world of fun", resp) })
 
 export default socket
