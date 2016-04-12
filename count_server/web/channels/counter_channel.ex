@@ -5,5 +5,13 @@ defmodule CountServer.CounterChannel do
     {:ok, socket}
   end
 
+  def handle_in("count_up", %{"body" => body}, socket) do
+    broadcast! socket, "count_up", %{body: body}
+    {:noreply, socket}
+  end
 
+  # def handle_out("count_up", payload, socket) do
+  #   push socket, "new_msg", payload
+  #   {:noreply, socket}
+  # end
 end
