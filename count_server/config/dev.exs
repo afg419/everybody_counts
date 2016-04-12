@@ -35,8 +35,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :count_server, CountServer.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  username: "aarongreenspan",
+  password: "aarongreenspan",
   database: "count_server_dev",
   hostname: "localhost",
   pool_size: 10
