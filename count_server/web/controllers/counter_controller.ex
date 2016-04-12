@@ -1,4 +1,4 @@
-defmodule CountServer.PageController do
+defmodule CountServer.CounterController do
   use CountServer.Web, :controller
 
   def index(conn, _params) do
