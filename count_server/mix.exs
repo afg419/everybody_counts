@@ -18,9 +18,15 @@ defmodule CountServer.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {CountServer, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex]]
+     applications: app_list(Mix.env)]
   end
+
+  def app_list do
+    [:phoenix, :phoenix_html, :cowboy, :logger, :gettext, :phoenix_ecto, :postgrex]
+  end
+
+  def app_list(:test), do: [:hound | app_list]
+  def app_list(_), do: app_list
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
@@ -36,7 +42,8 @@ defmodule CountServer.Mixfile do
      {:phoenix_html, "~> 2.4"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     {:hound, "~> 0.7", only: :test}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

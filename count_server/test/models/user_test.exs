@@ -4,7 +4,7 @@ defmodule CountServer.UserTest do
   alias CountServer.User
   alias CountServer.Repo
 
-  @valid_attrs %{password: "some content", username: "some content"}
+  @valid_attrs %{username: "axeface", password: "password"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
@@ -13,18 +13,19 @@ defmodule CountServer.UserTest do
   end
 
   test "changeset with invalid attributes" do
+    changeset = User.changeset(%User{}, %{username: "axeface"})
+    refute changeset.valid?
+
+    changeset = User.changeset(%User{}, %{password: "password"})
+    refute changeset.valid?
+
     changeset = User.changeset(%User{}, @invalid_attrs)
     refute changeset.valid?
   end
 
-  # test "changeset is invalid if password and confirmation do not match" do
-  #   changeset = User.changeset(%User{}, %{email: "test@test.com", password: "foo", password_confirmation: "bar", username: "test"})
-  #   refute changeset.valid?
-  # end
-
   test "changeset is invalid if username is used already" do
     %User{}
-    |> User.changeset(%{username: "axeface", password: "password"})
+    |> User.changeset(@valid_attrs)
     |> Repo.insert!
 
     user2 =
