@@ -18,18 +18,63 @@ import "phoenix_html"
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-import socket from "./socket"
 
+
+import socket from "./socket"
+// import Authorize from "web/static/js/components/_authorize"
 import React from "react"
 import ReactDOM from "react-dom"
 
 class Main extends React.Component {
   render() {
-    return (<h1>Hello World!</h1>)
+    return (
+      <div>
+        <h1>Ready to furiously click some buttons?!</h1>
+        <Authorize />
+      </div>
+    )
   }
 }
 
+var Authorize = React.createClass({
+  createAccount(){
+    let username = this.refs.username.value;
+    let password = this.refs.password.value;
+    $.ajax({
+      url: '/api/v1/session',
+      type: 'GET',
+      data: {username: username, password: password},
+      success: (reply) => {
+        console.log("HOLY SHIT", reply)
+        // this.props.handleSubmit(skill)
+      }
+    });
+    console.log("CREATIVE!", username, password);
+  },
+
+  login(){
+    let username = this.refs.username.value;
+    let password = this.refs.password.value;
+
+    console.log("I EXIST");
+  },
+
+  render(){
+    return(
+      <div>
+        <input ref='username' placeholder='username' />
+        <input ref='password' placeholder='password' />
+        <div>  |  </div>
+        <div>  |  </div>
+        <div>  |  </div>
+        <button onClick={this.createAccount}>Create new Account</button>
+        <button onClick={this.login}>Login to Pre-existing Account</button>
+      </div>
+    )
+  }
+})
+
+
 ReactDOM.render(
-  <Main/>,
-  document.getElementById("main")
+  <Main/>, document.getElementById("main")
 )

@@ -21,7 +21,10 @@ defmodule CountServer.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", CountServer do
-  #   pipe_through :api
-  # end
+  scope "/api/v1", CountServer do
+    pipe_through :api
+
+    get "/session", SessionController, :new
+    # resources "/sessions", SessionController, only: [:new, :create]
+  end
 end

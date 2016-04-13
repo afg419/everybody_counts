@@ -7,7 +7,7 @@ defmodule CountServer.UserTest do
   @valid_attrs %{username: "axeface", password: "password"}
   @invalid_attrs %{}
 
-  test "changeset with valid attributes" do
+    test "changeset with valid attributes" do
     changeset = User.changeset(%User{}, @valid_attrs)
     assert changeset.valid?
   end
