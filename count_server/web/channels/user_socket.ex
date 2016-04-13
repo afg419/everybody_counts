@@ -2,7 +2,7 @@ defmodule CountServer.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "the_counter", CountServer.RoomChannel
+  channel "the_counter", CountServer.CounterChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
