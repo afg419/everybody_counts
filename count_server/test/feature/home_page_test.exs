@@ -9,6 +9,6 @@ defmodule CountServer.HomePageTest do
 
   test "GET /" do
     navigate_to "/"
-    assert 1 =~ 1
+    assert 1 == 1
   end
 end
