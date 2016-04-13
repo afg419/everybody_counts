@@ -15,10 +15,10 @@ defmodule CountServer.SessionController do
       {:ok, user} ->
         fetched_conn
         |> put_session(:user_id, user.id)
-        |> render(reply: "user successfuly created")
+        |> render(reply: true)
       {:error, changeset} ->
         fetched_conn
-        |> render(reply: "username #{changeset.errors[:username]}")
+        |> render(reply: false)
     end
   end
 
@@ -31,11 +31,11 @@ defmodule CountServer.SessionController do
     case authenticate(user, password) do
       false ->
         fetched_conn
-        |> render(reply: "user not logged in")
+        |> render(reply: false)
       true ->
         fetched_conn
         |> put_session(:user_id, user.id)
-        |> render(reply: "user logged in")
+        |> render(reply: true)
     end
   end
 

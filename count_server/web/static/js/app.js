@@ -18,53 +18,66 @@ import "phoenix_html"
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-
-
 import socket from "./socket"
 // import Authorize from "web/static/js/components/_authorize"
 import React from "react"
 import ReactDOM from "react-dom"
 
-class Main extends React.Component {
+var Main = React.createClass({
+  getInitialState(){
+    return {loggedIn: false};
+  },
+
+  login(){
+    this.state.loggedIn = true;
+    console.log("LOGGED THE FUCK IN")
+  },
+
+  logout(){
+    this.state.loggedIn = false;
+  },
+
   render() {
     return (
       <div>
         <h1>Ready to furiously click some buttons?!</h1>
-        <Authorize />
+        <Authorize login={this.login} logout={this.logout}/>
       </div>
     )
   }
-}
+})
 
 var Authorize = React.createClass({
   createAccount(){
     let username = this.refs.username.value;
     let password = this.refs.password.value;
+
     $.ajax({
       url: '/api/v1/session',
       type: 'GET',
       data: {username: username, password: password},
       success: (reply) => {
-        console.log("HOLY SHIT", reply)
-        // this.props.handleSubmit(skill)
+        if(reply){
+          this.props.login();
+        }
       }
     });
-    console.log("CREATIVE!", username, password);
   },
 
-  login(){
+  loginExisting(){
     let username = this.refs.username.value;
     let password = this.refs.password.value;
+
     $.ajax({
       url: '/api/v1/session',
       type: 'POST',
       data: {username: username, password: password},
       success: (reply) => {
-        console.log("SERIOUSLY BCRYPT", reply)
-        // this.props.handleSubmit(skill)
+        if(reply){
+          this.props.login();
+        }
       }
     });
-    console.log("I EXIST");
   },
 
   render(){
@@ -76,7 +89,7 @@ var Authorize = React.createClass({
         <div>  |-  </div>
         <div>  |v  </div>
         <button onClick={this.createAccount}>Create new Account</button>
-        <button onClick={this.login}>Login to Pre-existing Account</button>
+        <button onClick={this.loginExisting}>Login to Pre-existing Account</button>
       </div>
     )
   }
