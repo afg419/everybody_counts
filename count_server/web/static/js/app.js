@@ -55,7 +55,15 @@ var Authorize = React.createClass({
   login(){
     let username = this.refs.username.value;
     let password = this.refs.password.value;
-
+    $.ajax({
+      url: '/api/v1/session',
+      type: 'POST',
+      data: {username: username, password: password},
+      success: (reply) => {
+        console.log("SERIOUSLY BCRYPT", reply)
+        // this.props.handleSubmit(skill)
+      }
+    });
     console.log("I EXIST");
   },
 
@@ -64,9 +72,9 @@ var Authorize = React.createClass({
       <div>
         <input ref='username' placeholder='username' />
         <input ref='password' placeholder='password' />
-        <div>  |  </div>
-        <div>  |  </div>
-        <div>  |  </div>
+        <div>  |^  </div>
+        <div>  |-  </div>
+        <div>  |v  </div>
         <button onClick={this.createAccount}>Create new Account</button>
         <button onClick={this.login}>Login to Pre-existing Account</button>
       </div>

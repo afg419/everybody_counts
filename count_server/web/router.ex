@@ -25,6 +25,7 @@ defmodule CountServer.Router do
     pipe_through :api
 
     get "/session", SessionController, :new
+    post "/session", SessionController, :create
     # resources "/sessions", SessionController, only: [:new, :create]
   end
 end
