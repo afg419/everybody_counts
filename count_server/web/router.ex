@@ -26,6 +26,7 @@ defmodule CountServer.Router do
 
     get "/session", SessionController, :new
     post "/session", SessionController, :create
+    delete "/session", SessionController, :destroy
     # resources "/sessions", SessionController, only: [:new, :create]
   end
 end

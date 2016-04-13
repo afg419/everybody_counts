@@ -35,6 +35,7 @@ var Main = React.createClass({
 
   logout(){
     this.state.loggedIn = false;
+    console.log("LOGGED THE FUCK OUT")
   },
 
   render() {
@@ -80,6 +81,19 @@ var Authorize = React.createClass({
     });
   },
 
+  logoutExisting(){
+
+    $.ajax({
+      url: '/api/v1/session',
+      type: 'DELETE',
+      success: (reply) => {
+        if(reply){
+          this.props.logout();
+        }
+      }
+    });
+  },
+
   render(){
     return(
       <div>
@@ -90,11 +104,11 @@ var Authorize = React.createClass({
         <div>  |v  </div>
         <button onClick={this.createAccount}>Create new Account</button>
         <button onClick={this.loginExisting}>Login to Pre-existing Account</button>
+        <button onClick={this.logoutExisting}>Logout from Account</button>
       </div>
     )
   }
 })
-
 
 ReactDOM.render(
   <Main/>, document.getElementById("main")

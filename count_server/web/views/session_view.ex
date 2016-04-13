@@ -8,4 +8,8 @@ defmodule CountServer.SessionView do
   def render("create.json", %{reply: reply}) do
     reply
   end
+
+  def render("destroy.json", %{reply: reply}) do
+    reply
+  end
 end

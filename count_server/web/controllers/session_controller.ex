@@ -1,7 +1,10 @@
 defmodule CountServer.SessionController do
   use CountServer.Web, :controller
+
   alias CountServer.Repo
   alias CountServer.User
+  alias CountServer.AppState
+
   alias Comeonin.Bcrypt
 
   def new(conn, %{"password" => password, "username" => username}) do
@@ -39,11 +42,25 @@ defmodule CountServer.SessionController do
     end
   end
 
+  def destroy(conn, _params) do
+    fetched_conn = conn
+    |> fetch_session
+    |> put_session(:user_id, nil)
+
+    case AppState.current_user(fetched_conn) do
+      nil ->
+        fetched_conn
+        |> render(reply: true)
+      user ->
+        fetched_conn
+        |> render(reply: false)
+    end
+  end
+
   def authenticate(user, password) do
     case user do
       nil -> false
       user -> Bcrypt.checkpw(password, user.password)
     end
   end
-
 end
