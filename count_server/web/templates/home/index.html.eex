@@ -1,1 +1,2 @@
-<h1>hello</h1>
+<h1>Welcome to the BUTTON</h1>
+<button type="button" name="create-account"> Create a new Account </button>  
