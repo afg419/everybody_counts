@@ -11,23 +11,31 @@ defmodule CountServer.CounterChannel do
 
   def handle_in("count_up", _params, socket) do
     counter = Repo.get!(Counter, 1)
-    new_value = counter.main + 1
+    new_value = 0
 
     changeset = Counter.changeset(counter, %{main: new_value})
-
-
-    # post = MyRepo.get!(Post, 42)
-    # post = Ecto.Changeset.change post, title: "New title"
-    # case MyRepo.update post do
-    #   {:ok, model}        -> # Updated with success
-    #   {:error, changeset} -> # Something went wrong
-    # end
 
     case Repo.update(changeset) do
     {:error, changeset} ->
       broadcast! socket, "count_up", %{body: false}
     changeset ->
       broadcast! socket, "count_up", %{body: new_value}
+    end
+
+    {:noreply, socket}
+  end
+
+  def handle_in("timer", _params, socket) do
+    counter = Repo.get!(Counter, 1)
+    new_value = counter.main + 1
+
+    changeset = Counter.changeset(counter, %{main: new_value})
+
+    case Repo.update(changeset) do
+    {:error, changeset} ->
+      broadcast! socket, "timer", %{body: false}
+    changeset ->
+      broadcast! socket, "timer", %{body: new_value}
     end
 
     {:noreply, socket}

@@ -17,6 +17,11 @@ export default function updater(renderIncrement){
     console.log("Increment message received");
   });
 
+  channel.on("timer", payload => {
+    renderIncrement(payload.body);
+    console.log("Increment message received");
+  });
+
   const close = () => socket.disconnect()
 
   const send = () => {
