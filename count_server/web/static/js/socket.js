@@ -7,6 +7,7 @@ import {Socket} from "phoenix"
 
 let socket = new Socket("/socket", {params: {token: window.userToken}})
 
+
 // When you connect, you'll often need to authenticate the client.
 // For example, imagine you have an authentication plug, `MyAuth`,
 // which authenticates the session and assigns a `:current_user`.
@@ -53,24 +54,24 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 
 socket.connect()
 
-let channel = socket.channel("the_counter", {})
-let counterOutput    = $("#dom-counter")
-let counterIncrement = $("#increment-counter")
+let channel = socket.channel("the_counter", {});
+let counterOutput    = $("#dom-counter");
+let counterIncrement = $("#increment-counter");
 
 counterIncrement.on("click", event => {
-  channel.push("count_up", {body: "plus_one"})
+  console.log("het")
+  channel.push("count_up", {body: "plus_one"});
 })
 
 channel.on("count_up", payload => {
   if(payload.body === "EVERYTHING HAS FAILED"){
-    counterOutput.append(`<br/>[Oh.. oh no...] ${payload.body}`)
+    counterOutput.append(`<br/>[Oh.. oh no...] ${payload.body}`);
   }else{
-    counterOutput.html(payload.body)
+    counterOutput.html(payload.body);
   }
-})
+});
 
 channel.join()
   .receive("ok", resp => { console.log("Joined successfully get ready to increment some counters", resp) })
   .receive("error", resp => { console.log("Unable to join you are missing out on a world of fun", resp) })
-
 export default socket
