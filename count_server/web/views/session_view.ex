@@ -12,4 +12,8 @@ defmodule CountServer.SessionView do
   def render("destroy.json", %{reply: reply}) do
     reply
   end
+
+  def render("index.json", %{reply: reply}) do
+    reply
+  end
 end

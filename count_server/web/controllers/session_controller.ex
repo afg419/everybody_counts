@@ -7,11 +7,15 @@ defmodule CountServer.SessionController do
 
   alias Comeonin.Bcrypt
 
-  def show(conn, _params) do
-    if AppState.current_user(conn) do
-      render(reply: true)
+  def index(conn, _params) do
+    user = conn
+      |> fetch_session
+      |> AppState.current_user
+
+    if user do
+      render(conn, reply: user.username)
     else
-      render(reply: false)
+      render(conn, reply: false)
     end
   end
 

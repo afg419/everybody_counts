@@ -21,10 +21,6 @@ defmodule CountServer.Router do
 
   scope "/api/v1", CountServer do
     pipe_through :api
-
-    # get "/session/confirm_auth", SessionController, :show
-    # get "/session", SessionController, :new
-    # post "/session", SessionController, :create
     delete "/sessions", SessionController, :destroy
     resources "/sessions", SessionController, only: [:new, :create, :index]
   end

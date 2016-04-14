@@ -5,18 +5,21 @@ import updater from "./updater"
 
 var Main = React.createClass({
   getInitialState(){
-    return {loggedIn: false,
+    return {
+            username: "",
+            loggedIn: false,
              counter: parseInt($("#main")[0].className),
-            updaterCloseSend: updater(this.renderIncrement)};
+            updaterCloseSend: updater(this.renderIncrement)
+           };
   },
 
-  login(){
-    this.setState({ loggedIn: true });
+  login(username){
+    this.setState({ loggedIn: true, username: username });
     console.log("LOGGED $#%@^ IN");
   },
 
   logout(){
-    this.setState({ loggedIn: false});
+    this.setState({ loggedIn: false, username: ""});
     console.log("LOGGED #$%#$ OUT");
   },
 
@@ -33,13 +36,25 @@ var Main = React.createClass({
   },
 
   componentDidMount(){
-
+    $.ajax({
+      url: '/api/v1/sessions',
+      type: 'GET',
+      success: (reply) => {
+        if(reply){
+          this.login(reply);
+          this.setState({message: "Logged in as "+ reply});
+        } else
+          this.setState({message: ""});
+        }
+      }
+    );
   },
 
   render() {
     return (
       <div>
         <h1>Ready to furiously click some buttons?!</h1>
+        <h3>Logged in as: {this.state.username}</h3>
         <Game counter={this.state.counter} loggedIn={this.state.loggedIn} sendIncrement={this.sendIncrement}/>
         <Authorize loggedIn={this.state.loggedIn} login={this.login} logout={this.logout}/>
       </div>
@@ -62,7 +77,7 @@ var Authorize = React.createClass({
       data: {username: username, password: password},
       success: (reply) => {
         if(reply){
-          this.props.login();
+          this.props.login(username);
           this.setState({message: "Created account and logged in as "+ username});
         } else
           this.setState({message: "Username already taken or password not long enough"});
@@ -81,7 +96,7 @@ var Authorize = React.createClass({
       data: {username: username, password: password},
       success: (reply) => {
         if(reply){
-          this.props.login();
+          this.props.login(username);
           this.setState({message: "Logged in as " + username});
         } else {
           this.setState({message: "Make a new account for " + username + " first!"});
