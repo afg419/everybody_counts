@@ -1,4 +1,4 @@
-defmodule CountServer.CounterController do
+defmodule CountServer.HomeController do
   use CountServer.Web, :controller
   alias CountServer.Counter
 

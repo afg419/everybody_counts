@@ -5,6 +5,7 @@
 # is restricted to this project.
 use Mix.Config
 
+config :hound, driver: "phantomjs"
 # Configures the endpoint
 config :count_server, CountServer.Endpoint,
   url: [host: "localhost"],

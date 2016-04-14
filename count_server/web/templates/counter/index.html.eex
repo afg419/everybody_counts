@@ -1,1 +1,4 @@
-ALL WIRED UP!
+<h1>THE COUNTER</h1>
+
+<button type="button" id="increment-counter" name="button">INCREMENT</button>
+<h3 id="dom-counter" value="<%=@counter.main%>"> <%=@counter.main%> </h3>

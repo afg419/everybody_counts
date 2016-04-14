@@ -4,7 +4,7 @@ use Mix.Config
 # you can enable the server option below.
 config :count_server, CountServer.Endpoint,
   http: [port: 4001],
-  server: false
+  server: true
 
 # Print only warnings and errors during test
 config :logger, level: :warn
@@ -12,8 +12,8 @@ config :logger, level: :warn
 # Configure your database
 config :count_server, CountServer.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  username: "aarongreenspan",
+  password: "aarongreenspan",
   database: "count_server_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
