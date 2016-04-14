@@ -126,6 +126,11 @@ var Authorize = React.createClass({
     } else {
       return(
         <div>
+          <input ref='username' placeholder='username' />
+          <input ref='password' placeholder='password' />
+          <div>  |^|  </div>
+          <div>  |-|  </div>
+          <div>  |v|  </div>
           <button onClick={this.createAccount}>Create new Account</button>
           <button onClick={this.loginExisting}>Login to Pre-existing Account</button>
         </div>
@@ -136,11 +141,6 @@ var Authorize = React.createClass({
   render(){
     return(
       <div>
-        <input ref='username' placeholder='username' />
-        <input ref='password' placeholder='password' />
-        <div>  |^|  </div>
-        <div>  |-|  </div>
-        <div>  |v|  </div>
         {this.renderButtons()}
         <div> {this.state.message} </div>
       </div>

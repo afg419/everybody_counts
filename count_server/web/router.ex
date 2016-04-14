@@ -14,7 +14,7 @@ defmodule CountServer.Router do
   end
 
   scope "/", CountServer do
-    pipe_through :browser # Use the default browser stack
+    pipe_through :browser
 
     get "/", HomeController, :index
   end
