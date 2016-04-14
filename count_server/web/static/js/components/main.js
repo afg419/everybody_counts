@@ -24,7 +24,7 @@ var Main = React.createClass({
     console.log("LOGGED #$%#$ OUT");
   },
 
-  sendIncrement(){
+  sendReset(){
     console.log("nice clicking ");
     this.state.updaterCloseSend.send();
     console.log("supposedly sent");
@@ -56,7 +56,7 @@ var Main = React.createClass({
       <div>
         <h1>Ready to furiously click some buttons?!</h1>
         <h3>Logged in as: {this.state.username}</h3>
-        <Game counter={this.state.counter} loggedIn={this.state.loggedIn} sendIncrement={this.sendIncrement}/>
+        <Game counter={this.state.counter} loggedIn={this.state.loggedIn} sendReset={this.sendReset}/>
         <Authorize loggedIn={this.state.loggedIn} login={this.login} logout={this.logout}/>
       </div>
     );
