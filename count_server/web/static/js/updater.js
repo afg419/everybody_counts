@@ -13,14 +13,8 @@ export default function updater(renderIncrement){
   channel.onClose(event => console.log('Channel closed.'));
 
   channel.on("count_up", payload => {
-    debugger;
-    renderIncrement(payload.body)
-    // if(payload.body === "EVERYTHING HAS FAILED"){
-    //   counterOutput.append(`<br/>[Oh.. oh no...] ${payload.body}`);
-    // }else{
-    //   counterOutput.html(payload.body);
-    // }
-    console.log("OH DAMN")
+    renderIncrement(payload.body);
+    console.log("Increment message received");
   });
 
   const close = () => socket.disconnect()
@@ -29,5 +23,5 @@ export default function updater(renderIncrement){
     channel.push("count_up", {body: "plus_one"});
   }
 
-  return {close: close, send: send}
+  return {close: close, send: send};
 }

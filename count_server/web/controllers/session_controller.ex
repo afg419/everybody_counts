@@ -7,6 +7,14 @@ defmodule CountServer.SessionController do
 
   alias Comeonin.Bcrypt
 
+  def show(conn, _params) do
+    if AppState.current_user(conn) do
+      render(reply: true)
+    else
+      render(reply: false)
+    end
+  end
+
   def new(conn, %{"password" => password, "username" => username}) do
     changeset = %User{}
     |> User.changeset(%{password: Bcrypt.hashpwsalt(password), username: username})

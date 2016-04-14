@@ -16,17 +16,16 @@ defmodule CountServer.Router do
   scope "/", CountServer do
     pipe_through :browser # Use the default browser stack
 
-    # get "/", CounterController, :index
     get "/", HomeController, :index
   end
 
-  # Other scopes may use custom stacks.
   scope "/api/v1", CountServer do
     pipe_through :api
 
-    get "/session", SessionController, :new
-    post "/session", SessionController, :create
-    delete "/session", SessionController, :destroy
-    # resources "/sessions", SessionController, only: [:new, :create]
+    # get "/session/confirm_auth", SessionController, :show
+    # get "/session", SessionController, :new
+    # post "/session", SessionController, :create
+    delete "/sessions", SessionController, :destroy
+    resources "/sessions", SessionController, only: [:new, :create, :index]
   end
 end
