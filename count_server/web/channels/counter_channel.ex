@@ -25,7 +25,7 @@ defmodule CountServer.CounterChannel do
 
     case Repo.update(changeset) do
     {:error, changeset} ->
-      broadcast! socket, "count_up", %{body: "EVERYTHING HAS FAILED"}
+      broadcast! socket, "count_up", %{body: false}
     changeset ->
       broadcast! socket, "count_up", %{body: new_value}
     end

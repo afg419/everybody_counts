@@ -18,18 +18,18 @@ import "phoenix_html"
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-import socket from "./socket"
+// import socket from "./socket"
+
 // import Authorize from "web/static/js/components/_authorize"
 import React from "react"
 import ReactDOM from "react-dom"
-
-
-import {Socket} from "phoenix"
-
+import updater from "./updater"
 
 var Main = React.createClass({
   getInitialState(){
-    return {socket: new Socket("/socket", {params: {token: window.userToken}}), loggedIn: false, counter: parseInt($("#main")[0].className)};
+    return {loggedIn: false,
+             counter: parseInt($("#main")[0].className),
+            updaterCloseSend: updater(this.renderIncrement)};
   },
 
   login(){
@@ -42,12 +42,23 @@ var Main = React.createClass({
     console.log("LOGGED #$%#$ OUT");
   },
 
+  sendIncrement(){
+    console.log("nice clicking ");
+    this.state.updaterCloseSend.send();
+    console.log("supposedly sent");
+  },
+
+  renderIncrement(reply){
+    if(reply){
+      this.setState({counter: reply});
+    }
+  },
+
   render() {
     return (
       <div>
-        <h2>{this.state.counter}</h2>
         <h1>Ready to furiously click some buttons?!</h1>
-        <Game loggedIn={this.state.loggedIn} />
+        <Game counter={this.state.counter} loggedIn={this.state.loggedIn} sendIncrement={this.sendIncrement}/>
         <Authorize loggedIn={this.state.loggedIn} login={this.login} logout={this.logout}/>
       </div>
     );
@@ -90,6 +101,8 @@ var Authorize = React.createClass({
         if(reply){
           this.props.login();
           this.setState({message: "Logged in as " + username});
+        } else {
+          this.setState({message: "Make a new account for " + username + " first!"});
         }
       }
     });
@@ -124,7 +137,6 @@ var Authorize = React.createClass({
   },
 
   render(){
-    debugger;
     return(
       <div>
         <input ref='username' placeholder='username' />
@@ -144,11 +156,20 @@ var Game = React.createClass({
     return { message: "" };
   },
 
+  clickIt(){
+    return (<div>
+              <button type="button" onClick={this.props.sendIncrement}>INCREMENT</button>
+              <h3>{this.props.counter}</h3>
+            </div>)
+  },
+
   render(){
+    var renderable = <div></div>
+    if(this.props.loggedIn){
+      renderable = this.clickIt();
+    }
     return(
-      <div>
-        <button type="button" id="increment-counter" name="button">INCREMENT</button>
-      </div>
+      renderable
     );
   }
 
