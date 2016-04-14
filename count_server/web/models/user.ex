@@ -4,7 +4,8 @@ defmodule CountServer.User do
   schema "users" do
     field :username, :string
     field :password, :string
-
+    field :top_score, :integer
+    
     timestamps
   end
 

@@ -10,12 +10,13 @@ var Main = React.createClass({
             username: "",
             loggedIn: false,
              counter: parseInt($("#main")[0].className),
-            updaterCloseSend: updater(this.renderIncrement)
+    updaterCloseSend: updater(this.renderIncrement, ""),
+            topScore: 0,
            };
   },
 
-  login(username){
-    this.setState({ loggedIn: true, username: username });
+  login(username, topscore){
+    this.setState({ loggedIn: true, username: username, updaterCloseSend: updater(this.renderIncrement, username), topScore: 0 + topscore});
     console.log("LOGGED $#%@^ IN");
   },
 
@@ -27,6 +28,7 @@ var Main = React.createClass({
   sendReset(){
     console.log("nice clicking ");
     this.state.updaterCloseSend.send();
+    this.getUserInfo();
     console.log("supposedly sent");
   },
 
@@ -36,14 +38,15 @@ var Main = React.createClass({
     }
   },
 
-  componentDidMount(){
+  getUserInfo(){
     $.ajax({
       url: '/api/v1/sessions',
       type: 'GET',
       success: (reply) => {
         if(reply){
-          this.login(reply);
-          this.setState({message: "Logged in as "+ reply});
+          debugger;
+          this.login(reply.username, reply.top_score);
+          this.setState({message: "Logged in as "+ reply.username});
         } else
           this.setState({message: ""});
         }
@@ -51,12 +54,17 @@ var Main = React.createClass({
     );
   },
 
+  componentDidMount(){
+    this.getUserInfo();
+  },
+
   render() {
     return (
       <div>
         <h1>Ready to furiously click some buttons?!</h1>
         <h3>Logged in as: {this.state.username}</h3>
-        <Game counter={this.state.counter} loggedIn={this.state.loggedIn} sendReset={this.sendReset}/>
+        <h3>Top Score: {this.state.topScore}</h3>
+        <Game getUserInfo={this.getUserInfo} counter={this.state.counter} loggedIn={this.state.loggedIn} sendReset={this.sendReset}/>
         <Authorize loggedIn={this.state.loggedIn} login={this.login} logout={this.logout}/>
       </div>
     );

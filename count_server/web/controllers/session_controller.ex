@@ -1,3 +1,5 @@
+require IEx
+
 defmodule CountServer.SessionController do
   use CountServer.Web, :controller
 
@@ -13,7 +15,7 @@ defmodule CountServer.SessionController do
       |> AppState.current_user
 
     if user do
-      render(conn, reply: user.username)
+      render(conn, reply: %{username: user.username, top_score: user.top_score})
     else
       render(conn, reply: false)
     end
