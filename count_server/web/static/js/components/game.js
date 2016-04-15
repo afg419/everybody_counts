@@ -7,10 +7,11 @@ var Game = React.createClass({
   },
 
   clickIt(){
-    return (<div>
-              <button type="button" onClick={this.props.sendIncrement}>INCREMENT</button>
-              <h3>{this.props.counter}</h3>
-            </div>)
+    return  (<div>
+                <button type="button" className="btn-big-red" onClick={this.props.sendReset}>RESET</button>
+                <h3>{this.props.counter}</h3>
+              </div>
+            )
   },
 
   render(){

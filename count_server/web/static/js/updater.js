@@ -1,6 +1,6 @@
 import {Socket} from "phoenix"
 
-export default function updater(renderIncrement){
+export default function updater(renderIncrement, username){
   let socket = new Socket("/socket", {params: {token: window.userToken}});
   socket.connect();
 
@@ -17,10 +17,15 @@ export default function updater(renderIncrement){
     console.log("Increment message received");
   });
 
+  channel.on("timer", payload => {
+    renderIncrement(payload.body);
+    console.log("Increment message received");
+  });
+
   const close = () => socket.disconnect()
 
   const send = () => {
-    channel.push("count_up", {body: "plus_one"});
+    channel.push("count_up", {username: username});
   }
 
   return {close: close, send: send};
